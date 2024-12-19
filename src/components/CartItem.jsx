@@ -46,7 +46,6 @@ const CartItem = ({
 
       <div 
         className="card flex-grow-1"
-        onClick={handleItemClick}
         style={{ 
           cursor: 'pointer', 
           transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
@@ -66,6 +65,7 @@ const CartItem = ({
 
             <div className="col-12 col-md-3 text-center">
               <img 
+                onClick={handleItemClick}
                 src={item.image} 
                 alt={item.title} 
                 onError={(e) => e.target.src = '/placeholder.png'}
@@ -78,7 +78,7 @@ const CartItem = ({
               <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
 
                 <div className="text-center text-md-start mb-3 mb-md-0">
-                  <h5 className="mb-1">{item.title}</h5>
+                  <h5 className="mb-1" onClick={handleItemClick} >{item.title}</h5>
                   <p className="text-muted">$ {item.price.toLocaleString()}</p>
                 </div>
 
