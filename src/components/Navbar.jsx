@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 const Navbar = () => {
@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top" ref={navbarRef}>
       <div className="container">
-        <Link className="navbar-brand" to="/">MadiShop</Link>
+        <NavLink className="navbar-brand" to="/">MadiShop</NavLink>
 
         <button
           className="navbar-toggler"
@@ -58,20 +58,26 @@ const Navbar = () => {
         >
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link 
-                className="nav-link" 
+              <NavLink 
+                className="nav-link"
+                style={({ isActive }) =>
+                  isActive ? { borderBottom: '2px solid #0d6efd', color: '#0d6efd' } : {}
+                }
                 to="/" 
                 onClick={() => setIsNavbarCollapsed(true)}
               >
                 Beranda
-              </Link>
+              </NavLink>
             </li>
 
             {isAuthenticated ? (
               <>
                 <li className="nav-item">
-                  <Link 
-                    className="nav-link" 
+                  <NavLink 
+                    className="nav-link"
+                    style={({ isActive }) =>
+                      isActive ? { borderBottom: '2px solid #0d6efd', color: '#0d6efd' } : {}
+                    }
                     to="/cart" 
                     onClick={() => setIsNavbarCollapsed(true)}
                   >
@@ -81,11 +87,12 @@ const Navbar = () => {
                         {cartItems.length}
                       </span>
                     )}
-                  </Link>
+                  </NavLink>
                 </li>
                 <li className="nav-item">
                   <button 
-                    className="nav-link btn btn-link" 
+                    className="nav-link btn btn-link"
+                    style={{ color: 'inherit' }}
                     onClick={() => {
                       handleLogout();
                       setIsNavbarCollapsed(true);
@@ -97,13 +104,16 @@ const Navbar = () => {
               </>
             ) : (
               <li className="nav-item">
-                <Link 
-                  className="nav-link" 
+                <NavLink 
+                  className="nav-link"
+                  style={({ isActive }) =>
+                    isActive ? { borderBottom: '2px solid #0d6efd', color: '#0d6efd' } : {}
+                  }
                   to="/login" 
                   onClick={() => setIsNavbarCollapsed(true)}
                 >
                   Login
-                </Link>
+                </NavLink>
               </li>
             )}
           </ul>

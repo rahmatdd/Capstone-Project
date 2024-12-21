@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import {
   removeFromCart,
   updateCartItemQuantity,
@@ -13,7 +14,7 @@ const CartPage = () => {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
   const [quantities, setQuantities] = useState({});
-  const [checkedItems, setCheckedItems] = useState({}); 
+  const [checkedItems, setCheckedItems] = useState({});
 
   const handleCheck = (productId, isChecked) => {
     setCheckedItems((prev) => ({
@@ -47,17 +48,41 @@ const CartPage = () => {
   };
 
   const handleCheckout = () => {
-    const checkoutItems = items.filter(
-      (item) => checkedItems[item.id] && (quantities[item.id] || item.quantity) <= 20
-    );
+    Swal.fire({
+      title: 'Konfirmasi Checkout',
+      text: 'Apakah Anda yakin ingin melakukan checkout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const checkoutItems = items.filter(
+          (item) => checkedItems[item.id] && (quantities[item.id] || item.quantity) <= 20
+        );
 
-    dispatch(checkout(checkoutItems));
-    alert('Checkout berhasil!');
-    navigate('/');
+        dispatch(checkout(checkoutItems));
+        Swal.fire('Berhasil', 'Checkout berhasil!', 'success').then(() => {
+          navigate('/');
+        });
+      }
+    });
   };
 
   const removeFromCartHandler = (productId) => {
-    dispatch(removeFromCart(productId));
+    Swal.fire({
+      title: 'Konfirmasi Hapus',
+      text: 'Apakah Anda yakin ingin menghapus item ini?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Batal',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(removeFromCart(productId));
+        Swal.fire('Berhasil', 'Item berhasil dihapus!', 'success');
+      }
+    });
   };
 
   if (items.length === 0) {
@@ -81,7 +106,7 @@ const CartPage = () => {
             onUpdateQuantity={updateQuantity}
             onRemoveItem={removeFromCartHandler}
             onCheck={handleCheck}
-            isChecked={isChecked} 
+            isChecked={isChecked}
             currentQuantity={currentQuantity}
           />
         );
@@ -89,12 +114,12 @@ const CartPage = () => {
 
       <div className="mt-4">
         <h3>
-          Total: $ {calculateTotal().toLocaleString()} ({calculateTotalQuantity()})
+          Total: Rp {calculateTotal().toLocaleString()} ({calculateTotalQuantity()} item)
         </h3>
         <button
           className="btn btn-success btn-lg"
           onClick={handleCheckout}
-          disabled={!Object.values(checkedItems).some((val) => val)} 
+          disabled={!Object.values(checkedItems).some((val) => val)}
         >
           Checkout
         </button>
