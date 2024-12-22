@@ -114,7 +114,7 @@ const CartPage = () => {
 
       <div className="mt-4">
         <h3>
-          Total: Rp {calculateTotal().toLocaleString()} ({calculateTotalQuantity()} item)
+          Total: $ {calculateTotal().toLocaleString()} ({calculateTotalQuantity()} item)
         </h3>
         <button
           className="btn btn-success btn-lg"

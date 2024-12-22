@@ -56,7 +56,7 @@ const ProductDetail = ({ product }) => {
           </div>
 
           <p className="h4 text-primary mb-4">
-            Rp {product.price.toLocaleString()} 
+            $ {product.price.toLocaleString()} 
           </p>
 
           <p className="mb-4" style={{ fontSize: '1rem' }}>
